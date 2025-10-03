@@ -52,3 +52,47 @@ class Pair {
         this.column = c;
     }
 }
+
+
+
+class Solution {
+    public char[][] fill(char[][] mat) {
+        int n=mat.length;
+        int m=mat[0].length;
+        int [][] visited=new int[n][m];
+
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if((i==0 || i==n-1 || j==0 ||j==m-1) && mat[i][j]=='O'){
+                    visited[i][j]=1;
+                    dfs(i,j,mat,visited);
+                }
+            }
+        }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(mat[i][j]=='O' && visited[i][j]==0) mat[i][j]='X';
+            }
+        }
+        return mat;
+    }
+    public void dfs(int r, int c,char[][]mat,int [][]visited){
+        int n=mat.length;
+        int m=mat[0].length;
+        int[] delRow={1,-1,0,0};
+        int[] delCol={0,0,-1,1};
+
+        visited[r][c] = 1; 
+
+        for(int i=0;i<4;i++){
+            int nRow=r+delRow[i];
+            int nCol=c+delCol[i];
+
+            if(nRow>=0 && nRow<n && nCol>=0 && nCol<m && visited[nRow][nCol]==0 && mat[nRow][nCol]=='O'){
+                //visited[nRow][nCol]=1;
+                dfs(nRow,nCol,mat,visited);
+            }
+        }
+    }
+}
+
